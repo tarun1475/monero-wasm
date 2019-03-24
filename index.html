@@ -16,43 +16,179 @@
       // or just "mymonero_core_js/monero_utils/MyMoneroCoreBridge"
       async function foo() {
         const monero_utils = await mymonero_core_js.monero_utils_promise;
-        const data = monero_utils.newly_created_wallet("en", 0);
+        const target_address =
+          "4L6Gcy9TAHqPVPMnqa5cPtJK25tr7maE7LrJe67vzumiCtWwjDBvYnHZr18wFexJpih71Mxsjv8b7EpQftpB9NjPaRYYBm62jmF59EWcj6";
+        const is_sweeping = false;
+        const entered_amount = "0.0002";
+        const simple_priority = 1;
+        const from_address =
+          "43zxvpcj5Xv9SEkNXbMCG7LPQStHMpFCQCmkmR4u5nzjWwq5Xkv5VmGgYEsHXg4ja2FGRD5wMWbBVMijDTqmmVqm93wHGkg";
+        const sec_viewKey_string =
+          "7bea1907940afdd480eff7c4bcadb478a0fbb626df9e3ed74ae801e18f53e104";
+        const sec_spendKey_string =
+          "4e6d43cd03812b803c6f3206689f5fcc910005fc7e91d50d79b0776dbefcd803";
+        const pub_spendKey_string =
+          "3eb884d3440d71326e27cc07a861b873e72abd339feb654660c36a008a0028b3";
+        const payment_id = null;
+        var coreBridge_instance;
 
-        document.getElementById("mnemonic").innerHTML = data.mnemonic_string;
-        document.getElementById("address").innerHTML = data.address_string;
-        console.log(nettype);
-        // read decoded.address_string
+        monero_utils.async__send_funds({
+          is_sweeping: is_sweeping,
+          payment_id_string: payment_id, // may be nil or undefined
+          sending_amount: is_sweeping ? 0 : sending_amount, // sending amount
+          from_address_string: from_address,
+          sec_viewKey_string: sec_viewKey_string,
+          sec_spendKey_string: sec_spendKey_string,
+          pub_spendKey_string: pub_spendKey_string,
+          to_address_string: target_address,
+          priority: simple_priority,
+          unlock_time: 0, // unlock_time
+          nettype: 0,
+          //
+          get_unspent_outs_fn: function(req_params, cb) {
+            var res = {
+              outputs: [
+                {
+                  amount: "3000000000",
+                  public_key:
+                    "41be1978f58cabf69a9bed5b6cb3c8d588621ef9b67602328da42a213ee42271",
+                  index: 1,
+                  global_index: 7611174,
+                  rct:
+                    "86a2c9f1f8e66848cd99bfda7a14d4ac6c3525d06947e21e4e55fe42a368507eb5b234ccdd70beca8b1fc8de4f2ceb1374e0f1fd8810849e7f11316c2cc063060008ffa5ac9827b776993468df21af8c963d12148622354f950cbe1369a92a0c",
+                  tx_id: 5334971,
+                  tx_hash:
+                    "9d37c7fdeab91abfd1e7e120f5c49eac17b7ac04a97a0c93b51c172115df21ea",
+                  tx_pub_key:
+                    "bd703d7f37995cc7071fb4d2929594b5e2a4c27d2b7c68a9064500ca7bc638b8",
+                  spend_key_images: [
+                    "3d92d42a105c231997b2fcb13b07ea1526fd4f709daaa8b9157608db387065f9"
+                  ]
+                } // NOTE: we'd have more in the real reply - and even the api response parser doesn't care about those values right now
+              ],
+              per_byte_fee: "24658",
+              fee_mask: "10000",
+              fork_version: 10
+              /*deprecated*/ // per_kb_fee: parseInt("24658"/*for str search*/) * 1024 // scale the per b we know up to per kib (so it can be scaled back down - interrim until all clients are ready for per b fee)
+            };
+
+            cb(null, res);
+          },
+          get_random_outs_fn: function(req_params, cb) {
+            var res = {
+              amount_outs: [
+                {
+                  amount: "0",
+                  outputs: [
+                    {
+                      global_index: "7453099",
+                      public_key:
+                        "31f3a7fec0f6f09067e826b6c2904fd4b1684d7893dcf08c5b5d22e317e148bb",
+                      rct:
+                        "ea6bcb193a25ce2787dd6abaaeef1ee0c924b323c6a5873db1406261e86145fc"
+                    },
+                    {
+                      global_index: "7500097",
+                      public_key:
+                        "f9d923500671da05a1bf44b932b872f0c4a3c88e6b3d4bf774c8be915e25f42b",
+                      rct:
+                        "dcae4267a6c382bcd71fd1af4d2cbceb3749d576d7a3acc473dd579ea9231a52"
+                    },
+                    {
+                      global_index: "7548483",
+                      public_key:
+                        "839cbbb73685654b93e824c4843e745e8d5f7742e83494932307bf300641c480",
+                      rct:
+                        "aa99d492f1d6f1b20dcd95b8fff8f67a219043d0d94b4551759016b4888573e7"
+                    },
+                    {
+                      global_index: "7554755",
+                      public_key:
+                        "b8860f0697988c8cefd7b4285fbb8bec463f136c2b9a9cadb3e57cebee10717f",
+                      rct:
+                        "327f9b07bee9c4c25b5a990123cd2444228e5704ebe32016cd632866710279b5"
+                    },
+                    {
+                      global_index: "7561477",
+                      public_key:
+                        "561d734cb90bc4a64d49d37f85ea85575243e2ed749a3d6dcb4d27aa6bec6e88",
+                      rct:
+                        "b5393e038df95b94bfda62b44a29141cac9e356127270af97193460d51949841"
+                    },
+                    {
+                      global_index: "7567062",
+                      public_key:
+                        "db1024ef67e7e73608ef8afab62f49e2402c8da3dc3197008e3ba720ad3c94a8",
+                      rct:
+                        "1fedf95621881b77f823a70aa83ece26aef62974976d2b8cd87ed4862a4ec92c"
+                    },
+                    {
+                      global_index: "7567508",
+                      public_key:
+                        "6283f3cd2f050bba90276443fe04f6076ad2ad46a515bf07b84d424a3ba43d27",
+                      rct:
+                        "10e16bb8a8b7b0c8a4b193467b010976b962809c9f3e6c047335dba09daa351f"
+                    },
+                    {
+                      global_index: "7568716",
+                      public_key:
+                        "7a7deb4eef81c1f5ce9cbd0552891cb19f1014a03a5863d549630824c7c7c0d3",
+                      rct:
+                        "735d059dc3526334ac705ddc44c4316bb8805d2426dcea9544cde50cf6c7a850"
+                    },
+                    {
+                      global_index: "7571196",
+                      public_key:
+                        "535208e354cae530ed7ce752935e555d630cf2edd7f91525024ed9c332b2a347",
+                      rct:
+                        "c3cf838faa14e993536c5581ca582fb0d96b70f713cf88f7f15c89336e5853ec"
+                    },
+                    {
+                      global_index: "7571333",
+                      public_key:
+                        "e73f27b7eb001aa7eac13df82814cda65b42ceeb6ef36227c25d5cbf82f6a5e4",
+                      rct:
+                        "5f45f33c6800cdae202b37abe6d87b53d6873e7b30f3527161f44fa8db3104b6"
+                    },
+                    {
+                      global_index: "7571335",
+                      public_key:
+                        "fce982db8e7a6b71a1e632c7de8c5cbf54e8bacdfbf250f1ffc2a8d2f7055ce3",
+                      rct:
+                        "407bdcc48e70eb3ef2cc22cefee6c6b5a3c59fd17bde12fda5f1a44a0fb39d14"
+                    }
+                  ]
+                }
+              ]
+            };
+
+            cb(null, res);
+          },
+          submit_raw_tx_fn: function(req_params, cb) {
+            console.log(req_params);
+            cb(null, req_params);
+          },
+          //
+          status_update_fn: function(params) {
+            console.log(
+              "> Send funds step " +
+                params.code +
+                ": " +
+                mymonero_core_js.monero_sendingFunds_utils
+                  .SendFunds_ProcessStep_MessageSuffix[params.code]
+            );
+          },
+          error_fn: function(params) {
+            console.error("Error occurred.... ", params.err_msg);
+            throw new Error("SendFunds err:" + params.err_msg);
+            // TODO: how to assert err msg not nil? didn't work
+            assert.equal(true, false);
+          },
+          success_fn: function(params) {}
+        });
         //
       }
       foo();
-
-      // const unspent_outs_json =
-      //   '{"amount":"1998063492276","new_address":false,"outputs":[{"amount":"1998063492276","global_index":405287,"height":1116022,"index":0,"public_key":"1dfe3d20240b879ca110822c56c1f3fcb4c7d27d0988ef2421f24cf03f6454cf","rct":"c93b0b5bebf8ce0bb73fe4ecf3f8f42c5cfc1906870697059e73fe67b5d9c4a84ed1c4d730bad4bd2f47bcdeb848ca9f410954b63248bfb4b283cdcb5d1ee1028c0f6bcd4c9b1c333e841b9030f3545f68b736708cfa0fa2ae1cd5c056b2820d","spend_key_images":[],"timestamp":1545381178000,"tx_hash":"8aa405cd24c2a74b9718e7dac05155542b118a0d53150cc37a721968fd66f9f4","tx_id":22,"tx_prefix_hash":"0aeb1aa28b21ecf2be5e76c3431475ed997c88dd69160b613d3c6395070deea0","tx_pub_key":"1042bcf9540e5fd8cd24eea820e5df19e3bddca509cb08b224859605dbc4765c"}],"per_byte_fee":49844,"status":"success"}';
-      // const rand_outs_json =
-      //   '{"amount_outs":[{"amount":"0","outputs":[{"global_index":240852,"public_key":"6840da05262837e45b5f77a5b969b153bead1890103dc7fa8a84ccb265dddf01","rct":"67d7de22ec659b6a1a96ab8d54050c83edb54710a7e29e9725a80dec44c041f100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":362275,"public_key":"5285209bb3fe42c8078dbb1ce890429aa667b6aa5d18f5dbfe36a09718ed244f","rct":"2d602d281e176629576174843c5912f2363934554858d9d1f616b15ab78c5de300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":223348,"public_key":"a6c895170ba6b8eba181c4d158687f22216945d8ca2cb0bd86468aa45bf22ab8","rct":"76508239a7f9ac609e9b34a35606479b3de06b8e16b1f0986a4a0d9a1f6b2c9700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":357956,"public_key":"8bc1fa37d33946237377adc319727da9efad5ff8dc41f218d30f2a3ca487727e","rct":"75cc4655dbba5b67de431e001dffd0ad1b3cbe9888303c4f4c7782a83e29a376b05ab6d37ab098f5a13ba7cda7209309bc442bcf892fed922330ba7847e8fd04c0a3e5ec14c9096e1dad74c62c005505dfb2bf269ae2dd30b69e672d5f591d03"},{"global_index":225476,"public_key":"0a842cb65281dc96a34c1639635faa9f173dd4be740cfdf90ad5c3895b25b32a","rct":"014bb2d2897cdfec9880542574987ced41ad50cd752da54623daa8600217bc9d00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":181123,"public_key":"c19cbfff3ce57fc33bafafad4a0097eccbbfaa70e1d117b8fd18087ab90a8e14","rct":"9584f2285b9b8292863a69746c9c69307cade99b3bbf1727dc1eb771f1ca262300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":256945,"public_key":"ca852e581d2e9786a7240ea7416610872402171e052a2f8e367d044d44d53c89","rct":"98c38bb4bb40d86deb42a0012ebc64828fc9ab7450dc5336c9ce4aa1003c61c800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":267962,"public_key":"3c66f8be0491df9c15b29a2f4134b3de2c5fea03a592c790838c1b6e193b1c2d","rct":"309fd09b184538424d1d32c94ea30f742e3ff09740ea2f73ba6a1badc4c533b600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":406297,"public_key":"2435c47aa4f029d7fc14b2b2609af47f75512ac1450faee800c3407904170687","rct":"81e975483980d7d1b3affdb96bb8f0e991a5ea70f90affedec8858401ba7f98600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"},{"global_index":299225,"public_key":"7d55d627126ef40098cfc3283e6c328f085cf647556d2fff9ab345ba4bfbc206","rct":"422c30be9914b5832e81c364f9ef073449d4c3b580ed85b0a1600b41edc57672af3ca71cecd88e5943b4eefbe17ffd17703275b653d017da230f81cc64b31407542e6aae4c00fa077b8986ec4d647ba40ae3ed3b4ed221fa9eddec688c85300f"}]}]}';
-      // const from_address =
-      //   "9vmdNrtvQijbNsp2D9cUUpZHyoygfdwfpA7qmAURwJ5g1qTkMfmYVcpZtPR2R9TkL97Yh5Q9YvNgpEos43JqPUQnFLmHc2o";
-      // const to_address =
-      //   "A12az3BuZgqB3QLaerPWvmMSFY3Q7aZcqPrCRcFa4b5jc6dV4AsT6hfXibvdRLEuyfUzVWTTh78pi9d4nc7WXJgvEi3XNuq";
-      // const sec_view_key =
-      //   "7fc00ba80e14fd0afa0583cd0fb458f0d09ca4ff9ebdce7370071aa9cf5f7d0a";
-      // const sec_spend_key =
-      //   "e0a93baff39238ea7ef774e408c3e93a07699568d7775456adf5a131a6c5eb0c";
-      // const amount_to_send = "200000000";
-      // const fees = "49846";
-      //
-      // var data = MyMoneroCoreCpp().wallet_get_raw_transaction(
-      //   unspent_outs_json,
-      //   rand_outs_json,
-      //   from_address,
-      //   to_address,
-      //   sec_view_key,
-      //   sec_spend_key,
-      //   amount_to_send,
-      //   fees
-      // );
-      // // data = JSON.parse(data);
-      // document.getElementById("mnemonic").innerHTML = data;
     </script>
   </body>
 </html>
