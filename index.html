@@ -10,12 +10,16 @@
   <body>
     <h1>WASM Demo</h1>
     <div id="mnemonic"></div>
+    <div id="address"></div>
 
     <script type="text/javascript">
       // or just "mymonero_core_js/monero_utils/MyMoneroCoreBridge"
       async function foo() {
         const monero_utils = await mymonero_core_js.monero_utils_promise;
-        const nettype = monero_utils.newly_created_wallet("en", 0);
+        const data = monero_utils.newly_created_wallet("en", 0);
+
+        document.getElementById("mnemonic").innerHTML = data.mnemonic_string;
+        document.getElementById("address").innerHTML = data.address_string;
         console.log(nettype);
         // read decoded.address_string
         //
