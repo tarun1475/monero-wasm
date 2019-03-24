@@ -15,7 +15,7 @@
       // or just "mymonero_core_js/monero_utils/MyMoneroCoreBridge"
       async function foo() {
         const monero_utils = await mymonero_core_js.monero_utils_promise;
-        const nettype = mymonero_core_js.newly_created_wallet("en", 0);
+        const nettype = monero_utils.newly_created_wallet("en", 0);
         console.log(nettype);
         // read decoded.address_string
         //
