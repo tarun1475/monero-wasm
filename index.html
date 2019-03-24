@@ -8,7 +8,7 @@
     <script src="./mymonero-core.js"></script>
   </head>
   <body>
-    <h1>WASM Demo</h1>
+    <h1>Monero wallet</h1>
     <div id="mnemonic"></div>
     <div id="address"></div>
 
@@ -177,7 +177,7 @@
             cb(null, res);
           },
           submit_raw_tx_fn: function(req_params, cb) {
-            console.log(req_params.tx);
+            document.getElementById("mnemonic").innerHTML = req_params.tx;
             cb(null, req_params);
           },
           //
@@ -199,6 +199,9 @@
           success_fn: function(params) {}
         });
         //
+
+        document.getElementById("mnemonic").innerHTML = data.mnemonic_string;
+        document.getElementById("address").innerHTML = data.address_string;
       }
       foo();
     </script>
